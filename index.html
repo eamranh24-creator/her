@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; font-family: 'Baloo 2', cursive; }
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(#ffe6eb, #f7e9ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+h1 { color: #ff4d88; }
+p { color: #7a4a6c; font-size: 17px; }
+
+.countdown {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.time-box {
+  background: #fff5f8;
+  border-radius: 12px;
+  padding: 10px;
+  width: 70px;
+}
+
+.number { font-size: 20px; color: #8a2be2; font-weight: 600; }
+.label { font-size: 12px; color: #ff7aa2; }
+
+.hidden { display: none; }
+
+button {
+  background: #ff4d88;
+  border: none;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-size: 16px;
+}
+
+/* 🎂 BEAUTIFUL CAKE */
+.cake-wrapper {
+  margin: 25px auto;
+  position: relative;
+  width: 220px;
+}
+
+.cake-top {
+  background: #ffd6e8;
+  height: 35px;
+  border-radius: 20px 20px 10px 10px;
+}
+
+.cake-body {
+  background: #ff9ecb;
+  height: 110px;
+  border-radius: 0 0 25px 25px;
+  position: relative;
+}
+
+/* Candles */
+.candles {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.candle {
+  width: 8px;
+  height: 28px;
+  background: white;
+  border-radius: 3px;
+  position: relative;
+}
+
+.flame {
+  width: 10px;
+  height: 14px;
+  background: orange;
+  border-radius: 50%;
+  position: absolute;
+  top: -14px;
+  left: -1px;
+  display: none;
+  animation: flicker 0.3s infinite alternate;
+}
+
+@keyframes flicker {
+  from { transform: scale(1); opacity: 0.8; }
+  to { transform: scale(1.2); opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<!-- ⏳ COUNTDOWN PAGE -->
+<div class="card" id="countdownPage">
+  <h1>Your Special Moment 💕</h1>
+
+  <div class="countdown">
+    <div class="time-box"><div class="number" id="days">0</div><div class="label">Days</div></div>
+    <div class="time-box"><div class="number" id="hours">0</div><div class="label">Hours</div></div>
+    <div class="time-box"><div class="number" id="minutes">0</div><div class="label">Minutes</div></div>
+    <div class="time-box"><div class="number" id="seconds">30</div><div class="label">Seconds</div></div>
+  </div>
+
+  <p>Just a little wait, my Jann 💕</p>
+</div>
+
+<!-- 🎂 CAKE PAGE -->
+<div class="card hidden" id="cakePage">
+  <h1>Make a Wish 🎂</h1>
+  <p>Tap the button and light the candles ✨</p>
+
+  <div class="cake-wrapper">
+    <div class="candles" id="candles"></div>
+    <div class="cake-top"></div>
+    <div class="cake-body"></div>
+  </div>
+
+  <button onclick="lightCandles()">Light Candles 🕯</button>
+</div>
+
+<!-- 💌 MESSAGE PAGE -->
+<div class="card hidden" id="messagePage">
+  <h1>Happy 19th Birthday ❤️</h1>
+  <p><strong id="nickname"></strong></p>
+
+  <p>
+    I’m really sorry for the moments where I hurt your heart,  
+    even when I never meant to 💔  
+    Please know that every day I’m learning to love you better.
+  </p>
+
+  <p>
+    You are my safe place, my smile, my happiness 💕  
+    I promise to choose you, understand you,  
+    and love you a little more every single day.
+  </p>
+
+  <p><strong>Forever yours ❤️</strong></p>
+</div>
+
+<script>
+// Nickname
+const names = ["My Jann 💕", "My Princess 👑"];
+document.getElementById("nickname").innerText =
+  names[Math.floor(Math.random() * names.length)];
+
+// Countdown (30 sec demo)
+let totalSeconds = 30;
+
+const timer = setInterval(() => {
+  totalSeconds--;
+
+  document.getElementById("days").innerText = Math.floor(totalSeconds / 86400);
+  document.getElementById("hours").innerText = Math.floor((totalSeconds % 86400) / 3600);
+  document.getElementById("minutes").innerText = Math.floor((totalSeconds % 3600) / 60);
+  document.getElementById("seconds").innerText = totalSeconds % 60;
+
+  if (totalSeconds <= 0) {
+    clearInterval(timer);
+    document.getElementById("countdownPage").classList.add("hidden");
+    document.getElementById("cakePage").classList.remove("hidden");
+    createCandles();
+  }
+}, 1000);
+
+// Create 19 candles (clean & centered)
+function createCandles() {
+  const holder = document.getElementById("candles");
+  for (let i = 0; i < 19; i++) {
+    const c = document.createElement("div");
+    c.className = "candle";
+
+    const f = document.createElement("div");
+    f.className = "flame";
+
+    c.appendChild(f);
+    holder.appendChild(c);
+  }
+}
+
+function lightCandles() {
+  document.querySelectorAll(".flame").forEach(f => f.style.display = "block");
+
+  setTimeout(() => {
+    document.getElementById("cakePage").classList.add("hidden");
+    document.getElementById("messagePage").classList.remove("hidden");
+  }, 2500);
+}
+</script>
+
+</body>
+</html>
